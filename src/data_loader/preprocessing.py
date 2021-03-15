@@ -9,6 +9,8 @@ Content:
     windowing
     smoothing
     find_largest
+    pancreas_normalization
+    finecut_to_thickcut
 """
 
 import os
@@ -100,3 +102,40 @@ def pancreas_normalization(image, pancreas, lesion):
     pancreas_mean = find_mean(image, pancreas, lesion)
     image = image - pancreas_mean
     return image
+
+
+def finecut_to_thickcut(image, thickness, label_mode=False):
+    '''
+    Usage: change finecut image to thickcut
+
+    Parameter
+    ---------
+    image (Numpy array): 3D numpy array image
+    thickness (float): original thickness
+    label_mode (bool): whether the input is label or not
+
+    Return
+    ------
+    Numpy array: Image after changing to thickcut
+    '''
+
+    assert thickness < 5, "have to be less than 5!"
+
+    zip_num = int(5 // thickness)
+    remove_num = image.shape[2] % zip_num
+
+    if not remove_num == 0:
+        image = image[:, :, :-int(remove_num)]
+
+    zip_shape = (image.shape[0], image.shape[1], int(image.shape[2] / zip_num))
+    zip_img = np.zeros(zip_shape)
+    for i in range(zip_shape[2]):
+        zip_img[:, :, i] = np.mean(
+            image[:, :, i * zip_num: (i + 1) * zip_num], axis=2)
+        if label_mode:
+            zip_img[zip_img < 0.3] = 0
+            zip_img[zip_img >= 0.3] = 1
+
+    thickness_new = thickness * zip_num
+
+    return zip_img, thickness_new

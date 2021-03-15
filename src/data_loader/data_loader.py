@@ -10,12 +10,10 @@ import nibabel as nib
 from random import shuffle
 import SimpleITK as sitk
 
-
 from data_loader.patch_sampler import patch_generator
 from data_loader.patch_sampler import masked_2D_sampler
 from data_loader.preprocessing import (
-    minmax_normalization, windowing, smoothing, pancreas_normalization)
-from data_loader.create_boxdata import finecut_to_thickcut
+    minmax_normalization, windowing, smoothing, pancreas_normalization, finecut_to_thickcut)
 
 
 class DataGenerator():
