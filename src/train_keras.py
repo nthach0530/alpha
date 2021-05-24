@@ -28,12 +28,12 @@ from data_description.visualization import plot_roc, show_train_history
 plt.switch_backend('agg')
 
 # Parse Args
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser()   # create the parser
 parser.add_argument("-c", "--config", default='./configs/base.yml',
-                    type=str, help="train configuration")
+                    type=str, help="train configuration")         # 
 parser.add_argument("-r", "--run_name", default=None, type=str,
                     help="run name for this experiment. (Default: time)")
-args = parser.parse_args()
+args = parser.parse_args()   # execute the parse_args() method
 
 # Load config
 config = load_config(args.config)
