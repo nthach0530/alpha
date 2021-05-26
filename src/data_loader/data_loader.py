@@ -38,7 +38,7 @@ class DataGenerator():
 
     def load_image(self, filename):
         self.filename = filename
-        if self.data_type == 'tcia':
+        if self.data_type == 'tcia':                        #=> filename for TCIA is 'PANCREAS_XXXX' (w/o file extension)
             file_location = glob.glob(os.path.join(
                 self.data_path, filename) + '/*/*/000001.dcm')
             imagedir = os.path.dirname(file_location[0])
